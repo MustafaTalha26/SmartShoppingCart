@@ -30,10 +30,9 @@ driver = webdriver.Chrome(
 SLEEP_TIME = 1
 
 def download_google_images(search_query: str, number_of_images: int) -> str:
-    '''Download google images with this function\n
-       Takes -> search_query, number_of_images\n
-       Returns -> None
-    '''
+    os.makedirs(
+        name=f'{cwd}/{IMAGE_FOLDER}/{search_query}',
+        exist_ok=True)
 
     def scroll_to_bottom():
         '''Scroll to the bottom of the page
@@ -127,7 +126,7 @@ def download_google_images(search_query: str, number_of_images: int) -> str:
             if 'https://' in src:
                 image_name = search_query.replace('/', ' ')
                 image_name = re.sub(pattern=" ", repl="_", string=image_name)
-                file_path = f'{IMAGE_FOLDER}/{count}_{image_name}.jpeg'
+                file_path = f'{IMAGE_FOLDER}/{search_query}/{count}_{image_name}.jpeg'
                 try:
                     result = requests.get(src, allow_redirects=True, timeout=10)
                     open(file_path, 'wb').write(result.content)
@@ -146,7 +145,7 @@ def download_google_images(search_query: str, number_of_images: int) -> str:
                 img_data = src.split(',')
                 image_name = search_query.replace('/', ' ')
                 image_name = re.sub(pattern=" ", repl="_", string=image_name)
-                file_path = f'{IMAGE_FOLDER}/{count}_{image_name}.jpeg'
+                file_path = f'{IMAGE_FOLDER}/{search_query}/{count}_{image_name}.jpeg'
                 try:
                     img = Image.open(BytesIO(base64.b64decode(img_data[1])))
                     img = img.convert('RGB')
@@ -179,7 +178,7 @@ for tag in tags:
     print(f'{"="*10} Downloding for the tag - {tag} {"="*10}')
     download_google_images(
         tag,
-        100
+        30
     )
     print(f'{"="*10} Finished downloding for the tag - {tag} {"="*10}')
 
