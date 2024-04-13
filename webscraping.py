@@ -169,16 +169,16 @@ def download_google_images(search_query: str, number_of_images: int) -> str:
             break
 
 tags = [
-    'biskrem paket',
-    'sakliköy bisküvi',
-    'tutku bisküvi'
+    'cat',
+    'dog',
+    'alligator'
 ]
 
 for tag in tags:
     print(f'{"="*10} Downloding for the tag - {tag} {"="*10}')
     download_google_images(
         tag,
-        30
+        100
     )
     print(f'{"="*10} Finished downloding for the tag - {tag} {"="*10}')
 
