@@ -20,7 +20,7 @@ def rest():
     size = (224, 224)
     shape = (224,224, 3) 
     epochs = 10
-    class_number = 3
+    class_number = 4
 
     model = MobileNetV2_model(shape,class_number)
 
