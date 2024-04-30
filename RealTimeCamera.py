@@ -1,23 +1,30 @@
 import cv2
-import keras
 import time
 import numpy as np
 from sklearn.metrics import classification_report
-import tensorflow as tf
 import mobilenetv2
-from keras.applications import MobileNetV2
+import EfficientNetB7
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 cap.set(3, 640)
 cap.set(4, 480)
 
-THRESH = 0.9
+THRESH = 0.7
 size = (224, 224)
 shape = (224,224, 3) 
 epochs = 10
-class_number = 4
-model = mobilenetv2.MobileNetV2_model(shape,class_number)
+class_number = 30
+model = EfficientNetB7.EfficientNetB7_model(shape,class_number)
 model.load_weights('my_model_weights.h5')
+
+class_labels = ["ankara makarna","arbella makarna","billur tuz","blade deodarant",
+                "coca cola","colgate","caykur tiryaki","domestos",
+                "dost sut","dr oetker kakao","efsane baldo pirinc","heinz ketcap",
+                "ice tea","irmak kup seker","loreal sampuan","nescafe",
+                "nutella","pinar ac bitir","pinar sut","pringles",
+                "redbull","sana margarin","sprite","superfresh manti",
+                "tamek salca","tat tursu","torku miniki","torku tam ruseymli biskuvi",
+                "ulker cikolata","whiskas kedi mamasi"]
 
 while True:
     ret, img= cap.read()
@@ -26,18 +33,14 @@ while True:
     img = np.expand_dims(img, axis=0)
     y_pred = model.predict(img)
     predicted_class_index = np.argmax(y_pred, axis=1)[0]
-    print(predicted_class_index)
-    print(y_pred)
-    class_labels = ["blackpencil", "singularbanana", "smartphone black screen", "white pug pup"]
     if y_pred[0][predicted_class_index] > THRESH:
-        predicted_class = class_labels[predicted_class_index]
+        predicted_class = str(class_labels[predicted_class_index]) + " " + str(y_pred[0][predicted_class_index])
     if y_pred[0][predicted_class_index] < THRESH:
         predicted_class = "None" 
     cv2.putText(copyimg, predicted_class,(10, 70), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 0, 0), 3)
     cv2.imshow('Webcam', copyimg)
     if cv2.waitKey(1) == ord('q'):
         break
-
 
 cap.release()
 cv2.destroyAllWindows()
