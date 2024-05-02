@@ -17,14 +17,7 @@ class_number = 30
 model = EfficientNetB7.EfficientNetB7_model(shape,class_number)
 model.load_weights('my_model_weights.h5')
 
-class_labels = ["ankara makarna","arbella makarna","billur tuz","blade deodarant",
-                "coca cola","colgate","caykur tiryaki","domestos",
-                "dost sut","dr oetker kakao","efsane baldo pirinc","heinz ketcap",
-                "ice tea","irmak kup seker","loreal sampuan","nescafe",
-                "nutella","pinar ac bitir","pinar sut","pringles",
-                "redbull","sana margarin","sprite","superfresh manti",
-                "tamek salca","tat tursu","torku miniki","torku tam ruseymli biskuvi",
-                "ulker cikolata","whiskas kedi mamasi"]
+class_labels = EfficientNetB7.checkdataset()
 
 while True:
     ret, img= cap.read()

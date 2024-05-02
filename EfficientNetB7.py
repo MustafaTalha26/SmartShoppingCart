@@ -54,4 +54,19 @@ def rest():
 
     model.save_weights('my_model_weights.h5')
 
-#rest()
+def checkdataset():
+    size = (224, 224)
+    train = keras.utils.image_dataset_from_directory(
+        "dataset/",
+        seed=1,
+        image_size=size,
+        batch_size=32,
+        validation_split = 0.2,
+        subset = "training",
+        label_mode='categorical',
+        labels='inferred'
+    )
+    tclasses = train.class_names
+    return tclasses
+
+rest()
