@@ -69,4 +69,3 @@ def checkdataset():
     tclasses = train.class_names
     return tclasses
 
-rest()
